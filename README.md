@@ -1,50 +1,114 @@
-# template-for-proposals
+# ECMAScript Decorators for Function Expressions and Function Declarations
 
-A repository template for ECMAScript proposals.
+This proposal seeks to add support for [Decorators](https://github.com/tc39/proposal-decorators) on function expressions and function declarations.
 
-## Before creating a proposal
+## Status
 
-Please ensure the following:
-  1. You have read the [process document](https://tc39.github.io/process-document/)
-  1. You have reviewed the [existing proposals](https://github.com/tc39/proposals/)
-  1. You are aware that your proposal requires being a member of TC39, or locating a TC39 delegate to “champion” your proposal
+**Stage:** 0  \
+**Champion:** Ron Buckton (@rbuckton)  \
+**Last Presented:** (none)
 
-## Create your proposal repo
+_For more information see the [TC39 proposal process](https://tc39.es/process-document/)._
 
-Follow these steps:
-  1. Click the green [“use this template”](https://github.com/tc39/template-for-proposals/generate) button in the repo header. (Note: Do not fork this repo in GitHub's web interface, as that will later prevent transfer into the TC39 organization)
-  1. Update ecmarkup and the biblio to the latest version: `npm install --save-dev ecmarkup@latest && npm install --save-dev --save-exact @tc39/ecma262-biblio@latest`.
-  1. Go to your repo settings page:
-      1. Under “General”, under “Features”, ensure “Issues” is checked, and disable “Wiki”, and “Projects” (unless you intend to use Projects)
-      1. Under “Pull Requests”, check “Always suggest updating pull request branches” and “automatically delete head branches”
-      1. Under the “Pages” section on the left sidebar, and set the source to “deploy from a branch” and check “Enforce HTTPS”
-      1. Under the “Actions” section on the left sidebar, under “General”, select “Read and write permissions” under “Workflow permissions” and click “Save”
-  1. [“How to write a good explainer”][explainer] explains how to make a good first impression.
+## Authors
 
-      > Each TC39 proposal should have a `README.md` file which explains the purpose
-      > of the proposal and its shape at a high level.
-      >
-      > ...
-      >
-      > The rest of this page can be used as a template ...
+- Ron Buckton (@rbuckton)
 
-      Your explainer can point readers to the `index.html` generated from `spec.emu`
-      via markdown like
+# Overview and Motivations
 
-      ```markdown
-      You can browse the [ecmarkup output](https://ACCOUNT.github.io/PROJECT/)
-      or browse the [source](https://github.com/ACCOUNT/PROJECT/blob/HEAD/spec.emu).
-      ```
+TBA
 
-      where *ACCOUNT* and *PROJECT* are the first two path elements in your project's Github URL.
-      For example, for github.com/**tc39**/**template-for-proposals**, *ACCOUNT* is “tc39”
-      and *PROJECT* is “template-for-proposals”.
+# Prior Art
 
+TBA
 
-## Maintain your proposal repo
+# Syntax
 
-  1. Make your changes to `spec.emu` (ecmarkup uses HTML syntax, but is not HTML, so I strongly suggest not naming it “.html”)
-  1. Any commit that makes meaningful changes to the spec, should run `npm run build` to verify that the build will succeed and the output looks as expected.
-  1. Whenever you update `ecmarkup`, run `npm run build` to verify that the build will succeed and the output looks as expected.
+TBA
 
-  [explainer]: https://github.com/tc39/how-we-work/blob/HEAD/explainer.md
+# Semantics
+
+TBA
+
+# Grammar
+
+TBA
+
+# API
+
+TBA
+
+# Examples
+
+TBA
+
+# Related Proposals
+
+- [Decorators](https://github.com/tc39/proposal-decorators) (Stage 3)
+- [Decorator Metadata](https://github.com/tc39/proposal-decorator-metadata) (Stage 3)
+- [Class Constructor and Method Parameter Decorators](https://github.com/tc39/proposal-class-method-parameter-decorators) (Stage 1)
+
+# TODO
+
+The following is a high-level list of tasks to progress through each stage of the [TC39 proposal process](https://tc39.github.io/process-document/):
+
+### Stage 1 Entrance Criteria
+
+* [x] Identified a "[champion][Champion]" who will advance the addition.
+* [ ] [Prose][Prose] outlining the problem or need and the general shape of a solution.
+* [ ] Illustrative [examples][Examples] of usage.
+* [ ] High-level [API][API].
+
+### Stage 2 Entrance Criteria
+
+* [ ] [Initial specification text][Specification].
+* [ ] [Transpiler support][Transpiler] (_Optional_).
+
+### Stage 2.7 Entrance Criteria
+
+* [ ] [Complete specification text][Specification].
+* [ ] Designated reviewers have signed off on the current spec text:
+  * [ ] [Reviewer #1][Stage3Reviewer1] has [signed off][Stage3Reviewer1SignOff]
+  * [ ] [Reviewer #2][Stage3Reviewer2] has [signed off][Stage3Reviewer2SignOff]
+* [ ] The [ECMAScript editor][Stage3Editor] has [signed off][Stage3EditorSignOff] on the current spec text.
+
+### Stage 3 Entrance Criteria
+
+* [ ] [Test262](https://github.com/tc39/test262) acceptance tests have  been written for mainline usage scenarios and [merged][Test262PullRequest].
+
+### Stage 4 Entrance Criteria
+
+* [ ] Two compatible implementations which pass the acceptance tests: [\[1\]][Implementation1], [\[2\]][Implementation2].
+* [ ] A [pull request][Ecma262PullRequest] has been sent to tc39/ecma262 with the integrated spec text.
+* [ ] The ECMAScript editor has signed off on the [pull request][Ecma262PullRequest].
+
+<!-- # References -->
+
+<!-- Links to other specifications, etc. -->
+
+<!-- * [Title](url) -->
+
+<!-- # Prior Discussion -->
+
+<!-- Links to prior discussion topics on https://esdiscuss.org -->
+
+<!-- * [Subject](https://esdiscuss.org) -->
+
+<!-- The following are shared links used throughout the README: -->
+
+[Champion]: #status
+[Prose]: #motivations
+[Examples]: #examples
+[API]: #api
+[Specification]: #todo
+[Transpiler]: #todo
+[Stage3Reviewer1]: #todo
+[Stage3Reviewer1SignOff]: #todo
+[Stage3Reviewer2]: #todo
+[Stage3Reviewer2SignOff]: #todo
+[Stage3Editor]: #todo
+[Stage3EditorSignOff]: #todo
+[Test262PullRequest]: #todo
+[Implementation1]: #todo
+[Implementation2]: #todo
+[Ecma262PullRequest]: #todo
