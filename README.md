@@ -47,6 +47,19 @@ elements:
 - Metadata (i.e., `@ReturnType(() => Number) function add(x, y) { ... }`)
 - Generator Trampolines (i.e., `@DataFlow() function* extractTransformAndLoad(sources) { ... }`)
 
+To improve consistency for decorator support within the language and to support these use cases we are proposing the
+adoption of the following capabilities:
+
+- Support for `@decorator` syntax on:
+  - Arrow Functions and Async Arrow Functions, both with and without parenthesis (i.e., `@dec () => ...`, 
+    `@dec x => ...`)
+  - Function Expressions (including async functions and generator)
+  - Function Declarations (including async functions and generators)
+  - Object Literal Methods (including async methods and generators)
+  - Object Literal Getters and Setters
+  - Object Literal Property Assignments (including shorthand assignments)
+- Support for `accessor` syntax on Object Literal Property Assignments (including shorthand assignments)
+
 # Prior Art
 
 - ECMAScript
@@ -347,7 +360,76 @@ addition of a `context.functionMetadata` (or similar) property for methods requi
 
 # Grammar
 
-TBD.
+```diff grammarkdown
+  # ObjectLiteral Methods, Property Assignments, and Auto-Accessors
+  PropertyDefinition[Yield, Await] :
+--  IdentifierReference[?Yield, ?Await]
+--  CoverInitializedName[?Yield, ?Await]
+--  PropertyName[?Yield, ?Await] `:` AssignmentExpression[+In, ?Yield, ?Await]
+--  MethodDefinition[?Yield, ?Await]
+++  DecoratorList[?Yield, ?Await]? IdentifierReference[?Yield, ?Await]
+++  DecoratorList[?Yield, ?Await]? CoverInitializedName[?Yield, ?Await]
+++  DecoratorList[?Yield, ?Await]? `accessor` IdentifierReference[?Yield, ?Await]
+++  DecoratorList[?Yield, ?Await]? PropertyName[?Yield, ?Await] `:` AssignmentExpression[+In, ?Yield, ?Await]
+++  DecoratorList[?Yield, ?Await]? `accessor` PropertyName[?Yield, ?Await] `:` AssignmentExpression[+In, ?Yield, ?Await]
+++  DecoratorList[?Yield, ?Await]? MethodDefinition[?Yield, ?Await]
+    `...` AssignmentExpression[+In, ?Yield, ?Await]
+  
+  # Function Declarations and Expressions
+  FunctionDeclaration[Yield, Await, Default] :
+--  `function` BindingIdentifier[?Yield, ?Await] `(` FormalParameters[~Yield, ~Await] `)` `{` FunctionBody[~Yield, ~Await] `}`
+--  [+Default] `function` `(` FormalParameters[~Yield, ~Await] `)` `{` FunctionBody[~Yield, ~Await] `}`
+++  DecoratorList[?Yield, ?Await]? `function` BindingIdentifier[?Yield, ?Await] `(` FormalParameters[~Yield, ~Await] `)` `{` FunctionBody[~Yield, ~Await] `}`
+++  [+Default] DecoratorList[?Yield, ?Await]? `function` `(` FormalParameters[~Yield, ~Await] `)` `{` FunctionBody[~Yield, ~Await] `}`
+  
+--FunctionExpression :
+--  `function` BindingIdentifier[~Yield, ~Await]? `(` FormalParameters[~Yield, ~Await] `)` `{` FunctionBody[~Yield, ~Await] `}`
+++FunctionExpression[Yield, Await] :
+++  DecoratorList[?Yield, ?Await]? `function` BindingIdentifier[~Yield, ~Await]? `(` FormalParameters[~Yield, ~Await] `)` `{` FunctionBody[~Yield, ~Await] `}`
+  
+  ArrowFunction[In, Yield, Await] :
+--  ArrowParameters[?Yield, ?Await] [no LineTerminator here] `=>` ConciseBody[?In]
+++  DecoratorList[?Yield, ?Await]? ArrowParameters[?Yield, ?Await] [no LineTerminator here] `=>` ConciseBody[?In]
+  
+  AsyncArrowFunction[In, Yield, Await] :
+--  `async` [no LineTerminator here] AsyncArrowBindingIdentifier[?Yield] [no LineTerminator here] `=>` AsyncConciseBody[?In]
+--  CoverCallExpressionAndAsyncArrowHead[?Yield, ?Await] [no LineTerminator here] `=>` AsyncConciseBody[?In]
+++  DecoratorList[?Yield, ?Await]? `async` [no LineTerminator here] AsyncArrowBindingIdentifier[?Yield] [no LineTerminator here] `=>` AsyncConciseBody[?In]
+++  DecoratorList[?Yield, ?Await]? CoverCallExpressionAndAsyncArrowHead[?Yield, ?Await] [no LineTerminator here] `=>` AsyncConciseBody[?In]
+  
+  GeneratorDeclaration[Yield, Await, Default] :
+--  `function` `*` BindingIdentifier[?Yield, ?Await] `(` FormalParameters[+Yield, ~Await] `)` `{` GeneratorBody `}`
+--  [+Default] `function` `*` `(` FormalParameters[+Yield, ~Await] `)` `{` GeneratorBody `}`
+++  DecoratorList[?Yield, ?Await]? `function` `*` BindingIdentifier[?Yield, ?Await] `(` FormalParameters[+Yield, ~Await] `)` `{` GeneratorBody `}`
+++  [+Default] DecoratorList[?Yield, ?Await]? `function` `*` `(` FormalParameters[+Yield, ~Await] `)` `{` GeneratorBody `}`
+  
+--GeneratorExpression :
+--  `function` `*` BindingIdentifier[+Yield, ~Await]? `(` FormalParameters[+Yield, ~Await] `)` `{` GeneratorBody `}`
+++GeneratorExpression[Yield, Await] :
+++  DecoratorList[?Yield, ?Await]? `function` `*` BindingIdentifier[+Yield, ~Await]? `(` FormalParameters[+Yield, ~Await] `)` `{` GeneratorBody `}`
+  
+  AsyncGeneratorDeclaration[Yield, Await, Default] :
+--  `async` [no LineTerminator here] `function` `*` BindingIdentifier[?Yield, ?Await] `(` FormalParameters[+Yield, +Await] `)` `{` AsyncGeneratorBody `}`
+--  [+Default] `async` [no LineTerminator here] `function` `*` `(` FormalParameters[+Yield, +Await] `)` `{` AsyncGeneratorBody `}`
+++  DecoratorList[?Yield, ?Await]? `async` [no LineTerminator here] `function` `*` BindingIdentifier[?Yield, ?Await] `(` FormalParameters[+Yield, +Await] `)` `{` AsyncGeneratorBody `}`
+++  [+Default] DecoratorList[?Yield, ?Await]? `async` [no LineTerminator here] `function` `*` `(` FormalParameters[+Yield, +Await] `)` `{` AsyncGeneratorBody `}`
+  
+--AsyncGeneratorExpression :
+--  `async` [no LineTerminator here] `function` `*` BindingIdentifier[+Yield, +Await]? `(` FormalParameters[+Yield, +Await] `)` `{` AsyncGeneratorBody `}`
+++AsyncGeneratorExpression[Yield, Await] :
+++  DecoratorList[?Yield, ?Await]? `async` [no LineTerminator here] `function` `*` BindingIdentifier[+Yield, +Await]? `(` FormalParameters[+Yield, +Await] `)` `{` AsyncGeneratorBody `}`
+  
+  AsyncFunctionDeclaration[Yield, Await, Default] :
+--  `async` [no LineTerminator here] `function` BindingIdentifier[?Yield, ?Await] `(` FormalParameters[~Yield, +Await] `)` `{` AsyncFunctionBody `}`
+--  [+Default] `async` [no LineTerminator here] `function` `(` FormalParameters[~Yield, +Await] `)` `{` AsyncFunctionBody `}`
+++  DecoratorList[?Yield, ?Await]? `async` [no LineTerminator here] `function` BindingIdentifier[?Yield, ?Await] `(` FormalParameters[~Yield, +Await] `)` `{` AsyncFunctionBody `}`
+++  [+Default] DecoratorList[?Yield, ?Await]? `async` [no LineTerminator here] `function` `(` FormalParameters[~Yield, +Await] `)` `{` AsyncFunctionBody `}`
+  
+--AsyncFunctionExpression :
+--  `async` [no LineTerminator here] `function` BindingIdentifier[~Yield, +Await]? `(` FormalParameters[~Yield, +Await] `)` `{` AsyncFunctionBody `}`
+++AsyncFunctionExpression[Yield, Await] :
+++  DecoratorList[?Yield, ?Await]? `async` [no LineTerminator here] `function` BindingIdentifier[~Yield, +Await]? `(` FormalParameters[~Yield, +Await] `)` `{` AsyncFunctionBody `}`
+```
 
 # API
 
