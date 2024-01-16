@@ -33,7 +33,7 @@ elide a return value to avoid wrapping/replacing the element. If we only support
 elements, it becomes more difficult to write reusable decorators that can also work with `dec(function() {})`-style
 decoration as well due to the lack of a `context`.
 
-First-class function decorator support would make it far easier to write reusable decorators and extend the same
+First-class function decorator support would make it far easier to write reusable decorators and would extend the same
 metaprogramming flexibility to more declarations, which makes the entire decorators feature more broadly supported and
 consistent throughout the language.
 
@@ -53,7 +53,7 @@ adoption of the following capabilities:
 - Support for `@decorator` syntax on:
   - Arrow Functions and Async Arrow Functions, both with and without parenthesis (i.e., `@dec () => ...`, 
     `@dec x => ...`)
-  - Function Expressions (including async functions and generator)
+  - Function Expressions (including async functions and generators)
   - Function Declarations (including async functions and generators)
   - Object Literal Methods (including async methods and generators)
   - Object Literal Getters and Setters
