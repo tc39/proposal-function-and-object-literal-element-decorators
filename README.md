@@ -781,9 +781,9 @@ The following is a high-level list of tasks to progress through each stage of th
 ### Stage 1 Entrance Criteria
 
 * [x] Identified a "[champion][Champion]" who will advance the addition.
-* [ ] [Prose][Prose] outlining the problem or need and the general shape of a solution.
-* [ ] Illustrative [examples][Examples] of usage.
-* [ ] High-level [API][API].
+* [x] [Prose][Prose] outlining the problem or need and the general shape of a solution.
+* [x] Illustrative [examples][Examples] of usage.
+* [x] High-level [API][API].
 
 ### Stage 2 Entrance Criteria
 
@@ -823,7 +823,7 @@ The following is a high-level list of tasks to progress through each stage of th
 <!-- The following are shared links used throughout the README: -->
 
 [Champion]: #status
-[Prose]: #motivations
+[Prose]: #overview-and-motivations
 [Examples]: #examples
 [API]: #api
 [Specification]: #todo
