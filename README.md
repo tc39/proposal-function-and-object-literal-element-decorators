@@ -807,19 +807,19 @@ The following is a high-level list of tasks to progress through each stage of th
 * [ ] A [pull request][Ecma262PullRequest] has been sent to tc39/ecma262 with the integrated spec text.
 * [ ] The ECMAScript editor has signed off on the [pull request][Ecma262PullRequest].
 
-<!-  # References - >
+<!-- # References -->
 
-<!-  Links to other specifications, etc. - >
+<!-- Links to other specifications, etc. -->
 
-<!-  * [Title](url) - >
+<!-- * [Title](url) -->
 
-<!-  # Prior Discussion - >
+<!-- # Prior Discussion -->
 
-<!-  Links to prior discussion topics on https://esdiscuss.org - >
+<!-- Links to prior discussion topics on https://esdiscuss.org -->
 
-<!-  * [Subject](https://esdiscuss.org) - >
+<!-- * [Subject](https://esdiscuss.org) -->
 
-<!-  The following are shared links used throughout the README: - >
+<!-- The following are shared links used throughout the README: -->
 
 [Champion]: #status
 [Prose]: #overview-and-motivations
