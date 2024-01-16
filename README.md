@@ -17,13 +17,41 @@ _For more information see the [TC39 proposal process](https://tc39.es/process-do
 
 # Overview and Motivations
 
-TBD
+The ECMAScript [Decorators][] proposal introduced the ability to "decorate" classes and class methods and fields by
+marking those declarations with an `@`-prefixed expression. These _decorators_ could then evaluate user-defined code
+during the evaluation of the class definition to perform various metaprogramming tasks, such as constructor
+registration, input validation, logging and tracing, reflection, metadata, and more. However, decorators are currently
+limited to classes and class elements, despite those declarations sharing many characteristics with other declarations
+such as `function` expressions and declarations, arrow functions, and object literal methods.
+
+While "decorating" a function could be trivially accomplished via a function call &mdash; `dec(function() {})` rather
+than `@dec function() {}` &mdash; such "decorators" do not have the same benefits that decorators on classes and
+class elements are afforded. Class and class element decorators receive a `context` object with additional information
+about the decorated element and can use that object to validate a decorator target (i.e., _"this decorator is only
+allowed on a field"_), attach metadata, and perform post-decoration registration. These decorators can also choose to
+elide a return value to avoid wrapping/replacing the element. If we only support decorators on classes and class
+elements, it becomes more difficult to write reusable decorators that can also work with `dec(function() {})`-style
+decoration as well due to the lack of a `context`.
+
+First-class function decorator support would make it far easier to write reusable decorators and extend the same
+metaprogramming flexibility to more declarations, which makes the entire decorators feature more broadly supported and
+consistent throughout the language.
+
+Many of the same use cases that apply to class and class element decorators apply to functions and object literal
+elements:
+
+- Logging/Tracing/auditing (i.e., `@Audit() function login(username, passwordHash) { ... }`)
+- Authorization (i.e., `@Authorize("Administrators") function createUser() { ... }`)
+- HTTP/REST API Routing (i.e., `@Get("/posts/:id") function getUser(id) { ... }`)
+- Testing/Registration (i.e., `@Test() function userIsCreated() { ... }`)
+- Metadata (i.e., `@ReturnType(() => Number) function add(x, y) { ... }`)
+- Generator Trampolines (i.e., `@DataFlow() function* extractTransformAndLoad(sources) { ... }`)
 
 # Prior Art
 
 - ECMAScript
-  - [Decorators](https://github.com/tc39/proposal-decorators)
-  - [Decorator Metadata](https://github.com/tc39/proposal-decorator-metadata)
+  - [Decorators][]
+  - [Decorator Metadata][Metadata]
 - C# 10.0
   - [Attributes on Lambdas](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/lambda-expressions#attributes)
 - Python
@@ -323,10 +351,9 @@ TBD.
 
 # API
 
-The API for the decorators introduced in this proposal is consistent with the
-[Decorators](https://github.com/tc39/proposal-decorators) proposal. A given decorator will be called by the runtime with
-two arguments, `target` and `context`, whose values are dependent on the element being decorated. The return values
-of these decorators potentially replaces all or part of the decorated element.
+The API for the decorators introduced in this proposal is consistent with the [Decorators][] proposal. A given decorator
+will be called by the runtime with two arguments, `target` and `context`, whose values are dependent on the element
+being decorated. The return values of these decorators potentially replaces all or part of the decorated element.
 
 ## Anatomy of a Function Decorator
 
@@ -585,7 +612,7 @@ export async function downloadFile(url) { ... }
 
 ## Authorization in a Multi-User Web Application
 
-> NOTE: This example leverages the proposed [AsyncContext](https://github.com/tc39/proposal-async-context).
+> NOTE: This example leverages the [AsyncContext][] proposal.
 
 ```js
 const authVar = new AsyncContext.Variable();
@@ -661,9 +688,9 @@ function handler(event) {
 
 # Related Proposals
 
-- [Decorators](https://github.com/tc39/proposal-decorators) (Stage 3)
-- [Decorator Metadata](https://github.com/tc39/proposal-decorator-metadata) (Stage 3)
-- [Class Constructor and Method Parameter Decorators](https://github.com/tc39/proposal-class-method-parameter-decorators) (Stage 1)
+- [Decorators][] (Stage 3)
+- [Decorator Metadata][Metadata] (Stage 3)
+- [Class Constructor and Method Parameter Decorators][ParameterDecorators] (Stage 1)
 
 # TODO
 
@@ -729,3 +756,7 @@ The following is a high-level list of tasks to progress through each stage of th
 [Implementation1]: #todo
 [Implementation2]: #todo
 [Ecma262PullRequest]: #todo
+[Decorators]: https://github.com/tc39/proposal-decorators
+[Metadata]: https://github.com/tc39/proposal-decorator-metadata
+[ParameterDecorators]: https://github.com/tc39/proposal-class-method-parameter-decorators
+[AsyncContext]: https://github.com/tc39/proposal-async-context
