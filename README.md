@@ -47,6 +47,27 @@ elements:
 - Metadata (i.e., `@ReturnType(() => Number) function add(x, y) { ... }`)
 - Generator Trampolines (i.e., `@DataFlow() function* extractTransformAndLoad(sources) { ... }`)
 
+In addition, by allowing decorators on functions, we can more easily write decorators themselves:
+
+```js
+/** A decorator that wraps another decorator with a check to validate the decorated element. */
+function AllowedTargets(kinds) {
+  const formatter = new Intl.ListFormat("en", { style: "long", type: "disjunction" });
+  return function (outerTarget, outerContext) {
+    if (outerTarget.kind !== "function") throw new TypeError("@AllowedTargets is only valid on a function");
+    return function (innerTarget, innerContext) {
+      if (!kinds.includes(innerContext.kind)) {
+        throw new TypeError(`@${outerContext.name} is only valid on a ${formatter.format(kinds)}`);
+      }
+      return outerTarget.call(this, innerTarget, innerContext);
+    };
+  };
+}
+
+@AllowedTargets(["class", "function"])
+function ClassOrFunctionDecorator(target, context) { ... }
+```
+
 To improve consistency for decorator support within the language and to support these use cases we are proposing the
 adoption of the following capabilities:
 
@@ -146,7 +167,7 @@ circular import relationship between the files):
 ```js
 const dec = (target, context) => {};
 
-@dec // this is an error because `@dec` ends up evaluated before `const dec` is initialized.
+@dec // errors because `@dec` ends up evaluated before `const dec` is initialized.
 function foo() {}
 ```
 
@@ -156,7 +177,7 @@ declared in the same file, which would be useful when decorating multiple functi
 ```js
 const BASE = "/api/users";
 
-@route("PUT", `${BASE}/create`) // this is an error because BASE is not initialized when `@route` is evaluated.
+@route("PUT", `${BASE}/create`) // errors because BASE is not initialized when `@route` is evaluated.
 export function createUser(data) { }
 
 @route("GET", `${BASE}/:id`)
