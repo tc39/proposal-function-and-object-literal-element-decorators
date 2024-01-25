@@ -708,7 +708,7 @@ function retry({ maxAttempts, shouldRetry }) {
   }
 }
 
-@retry({ maxAttempts: 3, shouldRetry: e => e extends IOError })
+@retry({ maxAttempts: 3, shouldRetry: e => e instanceof IOError })
 export async function downloadFile(url) { ... }
 ```
 
