@@ -5,9 +5,9 @@ expressions, function declarations, and object literal elements.
 
 ## Status
 
-**Stage:** 0  \
+**Stage:** 1  \
 **Champion:** Ron Buckton (@rbuckton)  \
-**Last Presented:** (none)
+**Last Presented:** [February 8th, 2024]([none](https://github.com/tc39/notes/blob/main/meetings/2024-02/feb-8.md#conclusionresolution))
 
 _For more information see the [TC39 proposal process](https://tc39.es/process-document/)._
 
